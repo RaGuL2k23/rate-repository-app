@@ -10,7 +10,7 @@ const style = StyleSheet.create({
     padding: 20,
     display: "flex",
     gap: 20,
-    backgroundColor:'#fff'
+    backgroundColor: "#fff",
   },
   Text: {
     color: "white",
