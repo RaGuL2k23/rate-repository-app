@@ -12,12 +12,8 @@ const style = StyleSheet.create({
     gap: 20,
     backgroundColor: "#fff",
   },
-  Text: {
-    color: "white",
-    backgroundColor: "blue",
-    padding: 10,
-    marginVertical: 1.8,
-    borderRadius: 5,
+  Details: {
+    maxWidth: "77%",
   },
   languageText: {
     color: "white",
@@ -31,7 +27,21 @@ const style = StyleSheet.create({
     justifyContent: "space-around",
   },
 });
-
+const ItemDetails = ({ item }) => (
+  <View style={style.Details}>
+    <Text fontSize={"heading"}>{item.fullName}</Text>
+    <Text fontSize={"subheading"} style={{ marginVertical: 10 }}>
+      {item.description}
+    </Text>
+    <Text
+      style={style.languageText}
+      backgroundColor="primary"
+      fontSize={"subheading"}
+    >
+      {item.language}
+    </Text>
+  </View>
+);
 const RepositoryItem = ({ item }) => {
   return (
     <View style={style.container}>
@@ -42,45 +52,34 @@ const RepositoryItem = ({ item }) => {
             uri: item.ownerAvatarUrl,
           }}
         />
-        <View>
-          <Text fontSize={"heading"}>{item.fullName}</Text>
-          <Text
-            fontSize={"subheading"}
-            style={{ width: 200, marginVertical: 10 }}
-          >
-            {item.description}
-          </Text>
-          <Text
-            style={style.languageText}
-            backgroundColor="primary"
-            fontSize={"subheading"}
-          >
-            {item.language}
-          </Text>
-        </View>
+        <ItemDetails item={item} />
       </View>
 
-      <View style={style.stats}>
-        <StatView>
-          <StatText bold={"bold"}>{item.stargazersCount}</StatText>
-          <StatText>stars</StatText>
-        </StatView>
-        <StatView>
-          <StatText bold={"bold"}>{item.ratingAverage}</StatText>
-          <StatText>rating</StatText>
-        </StatView>
-        <StatView>
-          <StatText bold={"bold"}>{item.reviewCount}</StatText>
-          <StatText>reviews</StatText>
-        </StatView>
-        <StatView>
-          <StatText bold={"bold"}>{item.forksCount}</StatText>
-          <StatText>forks</StatText>
-        </StatView>
-      </View>
+      <ItemStats item={item} />
     </View>
   );
 };
+
+const ItemStats = ({ item }) => (
+  <View style={style.stats}>
+    <StatView>
+      <StatText bold={"bold"}>{item.stargazersCount}</StatText>
+      <StatText>stars</StatText>
+    </StatView>
+    <StatView>
+      <StatText bold={"bold"}>{item.ratingAverage}</StatText>
+      <StatText>rating</StatText>
+    </StatView>
+    <StatView>
+      <StatText bold={"bold"}>{item.reviewCount}</StatText>
+      <StatText>reviews</StatText>
+    </StatView>
+    <StatView>
+      <StatText bold={"bold"}>{item.forksCount}</StatText>
+      <StatText>forks</StatText>
+    </StatView>
+  </View>
+);
 const StatView = ({ children }) => {
   return (
     <View style={{ display: "flex", alignItems: "center" }}>{children}</View>

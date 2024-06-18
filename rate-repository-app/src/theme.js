@@ -12,10 +12,10 @@ const theme = {
     heading: 24,
   },
   fonts: {
-    main:Platform.select({
-      android:'Roboto',
-      ios:'Arial',
-      default:'System'
+    main: Platform.select({
+      android: "Roboto", //serif monospace * normal=roboto
+      ios: "Arial",
+      default: "System",
     }),
   },
   fontWeights: {
