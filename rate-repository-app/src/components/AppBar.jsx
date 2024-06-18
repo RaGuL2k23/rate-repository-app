@@ -30,13 +30,11 @@ const AppBar = () => {
 };
 const CreateLink = ({ to, text }) => {
   return (
-    <Pressable>
-      <Link to={to}>
-        <Text style={styles.text} fontWeight="normal" fontSize="subheading">
-          {text}
-        </Text>
-      </Link>
-    </Pressable>
+    <Link to={to}>
+      <Text style={styles.text} fontWeight="normal" fontSize="subheading">
+        {text}
+      </Text>
+    </Link>
   );
 };
 export default AppBar;
