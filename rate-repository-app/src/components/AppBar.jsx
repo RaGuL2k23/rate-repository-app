@@ -2,6 +2,10 @@ import { View, StyleSheet, Pressable, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import Text from "./Text";
 import { Link } from "react-router-native";
+import { useApolloClient, useQuery } from "@apollo/client";
+import { GET_ME } from "../graphql/queries";
+import { useEffect, useState } from "react";
+import useAuthStorage from "../hooks/useAuthStorage";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,15 +23,43 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const authStorage = useAuthStorage();
+  const apolloClient = useApolloClient();
+  const [loggedIn,setLoggedIn] = useState();
+  const {data,error} = useQuery(GET_ME,{
+    fetchPolicy:'cache-and-network'
+  })
+  const removeToken = async ()=>{
+    await authStorage.removeAccessToken()
+    await apolloClient.resetStore();
+  }
+  useEffect(() => {
+    if (data) {
+      setLoggedIn(data.me);
+
+    }
+  }, [data]);
+  useEffect(() => {
+    if (error) {
+      console.error('Error fetching me:', error);
+    }
+  }, [error]);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <CreateLink to={"/"} text={"Repositories"} />
-        <CreateLink to={"signIn"} text={"Sign-In"} />
+        {loggedIn!=null ? <LogOutBtn removeToken={removeToken}/>:<CreateLink to={"signIn"} text={"Sign-In"} />}
       </ScrollView>
     </View>
   );
 };
+const LogOutBtn = ({removeToken})=>(
+  <Pressable onPress={removeToken}>
+    <Text style={styles.text} fontWeight="normal" fontSize="subheading">
+        Log Out 
+      </Text>
+  </Pressable>
+)
 const CreateLink = ({ to, text }) => {
   return (
     <Link to={to}>
