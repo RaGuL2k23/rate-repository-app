@@ -1,6 +1,13 @@
-{
+import 'dotenv/config';
+
+export default {
+  
   "expo": {
-    "name": "rate-repository-app",
+    "name": "rate-repository-app-rocky",
+    extra: {
+      env: process.env.ENV,
+      APOLLO_URI:process.env.APOLLO_URI
+    },
     "slug": "rate-repository-app",
     "version": "1.0.0",
     "orientation": "portrait",

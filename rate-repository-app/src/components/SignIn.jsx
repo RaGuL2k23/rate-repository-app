@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import Text from "./Text";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import * as yup from "yup";
+import { useSignIn } from "../hooks/useSignIn";
 
 const styles = StyleSheet.create({
   errorText: {
@@ -31,18 +32,18 @@ const styles = StyleSheet.create({
 const validationSchema = yup.object().shape({
   username: yup
     .string()
-    .min(6, "minimum 6 characters")
+    .min(4, "minimum 6 characters")
     .max(8, "Password cannot be more than 8 characters")
     .required("username is required"),
   password: yup
     .string()
-    .min(6, "minimum 6 characters")
+    .min(4, "minimum 6 characters")
     .max(8, "Password cannot be more than 8 characters")
     .required("password is required"),
 });
 const initialValues = {
-  username: "",
-  password: "",
+  username: "elina",
+  password: "password",
 };
 const SignInForm = ({ onSubmit }) => {
   const formik = useFormik({
@@ -76,7 +77,7 @@ const SingInTextInput = ({ formik, field }) => {
       <TextInput
         style={errorStyle}
         placeholder={field}
-        value={formik.values[field]}
+        value={formik.values[field].toLowerCase()}
         onChangeText={formik.handleChange(field)}
         maxLength={8}
       />
@@ -86,10 +87,23 @@ const SingInTextInput = ({ formik, field }) => {
     </>
   );
 };
-const onSubmit = (values) => {
-  console.log(values.username, values.password);
-};
+
 const SignIn = () => {
+  
+  const [signIn] = useSignIn();
+  
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+  
+    try {
+      const {data} = await signIn({ username, password });
+      console.log(data.authenticate.accessToken,);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+
   return <SignInForm onSubmit={onSubmit} />;
 };
 
