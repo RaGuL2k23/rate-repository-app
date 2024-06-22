@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import Text from "./Text";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import * as yup from "yup";
-import { useSignIn } from "../hooks/useSignIn";
+import { useReview } from "../hooks/useReview";
 import { useNavigate } from "react-router-native";
 
 export const formStyles = StyleSheet.create({
@@ -30,32 +30,38 @@ export const formStyles = StyleSheet.create({
     marginTop: 8,
   },
 });
+
 const validationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(4, "minimum 6 characters")
-    .max(8, "Password cannot be more than 8 characters")
-    .required("username is required"),
-  password: yup
-    .string()
-    .min(4, "minimum 6 characters")
-    .max(8, "Password cannot be more than 8 characters")
-    .required("password is required"),
+  repoOwner: yup.string().required("Repository owner's username is required"),
+  repoName: yup.string().required("Repository's name is required"),
+  rating: yup
+    .number()
+    .min(0, "Rating must be larger than 0")
+    .max(100, "Rating should not be larger than 100")
+    .required("Rating is required"),
+  review: yup.string().optional(),
 });
+
 const initialValues = {
-  username: "elina",
-  password: "password",
+  repoOwner: "ragul2k23",
+  repoName: "restaurant",
+  rating: "100",
+  review: "veraa level vro",
 };
-const SignInForm = ({ onSubmit }) => {
+
+const ReviewForm = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
+
   return (
     <View style={formStyles.container}>
-      <SingInTextInput formik={formik} field={"username"} />
-      <SingInTextInput formik={formik} field={"password"} />
+      <ReviewTextInput formik={formik} field={"repoOwner"} />
+      <ReviewTextInput formik={formik} field={"repoName"} />
+      <ReviewTextInput formik={formik} field={"rating"} />
+      <ReviewTextInput formik={formik} field={"review"} multiline={true} />
       <Pressable onPress={formik.handleSubmit}>
         <Text
           style={formStyles.submitBtn}
@@ -68,19 +74,24 @@ const SignInForm = ({ onSubmit }) => {
     </View>
   );
 };
-const SingInTextInput = ({ formik, field }) => {
+
+const ReviewTextInput = ({ formik, field, multiline = false }) => {
   const errorStyle = [
     formStyles.input,
     formik.touched[field] && formik.errors[field] && { borderColor: "red" },
   ];
+
   return (
     <>
       <TextInput
         style={errorStyle}
-        placeholder={field}
-        value={formik.values[field].toLowerCase()}
+        placeholder={field + `${field == "rating" ? "(0-100)" : ""}`}
+        value={formik.values[field]}
         onChangeText={formik.handleChange(field)}
-        maxLength={8}
+        onBlur={formik.handleBlur(field)}
+        maxLength={field === "rating" ? 3 : 255}
+        keyboardType={field === "rating" ? "numeric" : "default"}
+        multiline={multiline}
       />
       {formik.touched[field] && formik.errors[field] && (
         <Text style={formStyles.errorText}>{formik.errors[field]}</Text>
@@ -89,22 +100,23 @@ const SingInTextInput = ({ formik, field }) => {
   );
 };
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
+const CreateReview = () => {
+  const [Review] = useReview();
   const navigate = useNavigate();
-
   const onSubmit = async (values) => {
-    const { username, password } = values;
+    const { repoOwner, repoName, rating, review } = values;
+    console.log({ repoOwner, repoName, rating, review }, "values");
 
     try {
-      const data = await signIn({ username, password });
-      navigate("/");
+      const data = await Review({ repoOwner, repoName, rating, review });
+        console.log('reve',data);
+        navigate(`/repositoryView/${data.createReview.repositoryId}`);
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  return <SignInForm onSubmit={onSubmit} />;
+  return <ReviewForm onSubmit={onSubmit} />;
 };
 
-export default SignIn;
+export default CreateReview;

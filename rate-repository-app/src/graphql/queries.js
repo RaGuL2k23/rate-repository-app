@@ -32,28 +32,27 @@ export const GET_SNGLE_REPO = gql`
       url
       ownerName
       id
-    fullName
-    reviews {
-      edges {
-        node {
-          id
-          text
-          rating
-          createdAt
-          user {
+      fullName
+      reviews {
+        edges {
+          node {
             id
-            username
+            text
+            rating
             createdAt
-            reviewCount
-            reviews {
-            totalCount
-          }
+            user {
+              id
+              username
+              createdAt
+              reviewCount
+              reviews {
+                totalCount
+              }
+            }
           }
         }
       }
     }
-  }
-    
   }
   ${REPOSITORY_DETAILS}
 `;

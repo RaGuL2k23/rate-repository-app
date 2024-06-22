@@ -1,7 +1,7 @@
 import { View, StyleSheet, Image, Pressable } from "react-native";
 import Text from "./Text";
 import { useNavigate } from "react-router-native";
- 
+
 const style = StyleSheet.create({
   tinyLogo: {
     width: 70,
@@ -47,7 +47,7 @@ const ItemDetails = ({ item }) => (
 export const RepositoryItem = ({ item }) => {
   const navigate = useNavigate();
   return (
-    <Pressable onPress={()=>navigate(`/repositoryView/${item.id}`)}>
+    <Pressable onPress={() => navigate(`/repositoryView/${item.id}`)}>
       <View testID="repositoryItem" style={style.container}>
         <View style={{ display: "flex", flexDirection: "row", gap: 40 }}>
           <Image

@@ -25,41 +25,45 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
-  const [loggedIn,setLoggedIn] = useState();
-  const {data,error} = useQuery(GET_ME,{
-    fetchPolicy:'cache-and-network'
-  })
-  const removeToken = async ()=>{
-    await authStorage.removeAccessToken()
+  const [loggedIn, setLoggedIn] = useState();
+  const { data, error } = useQuery(GET_ME, {
+    fetchPolicy: "cache-and-network",
+  });
+  const removeToken = async () => {
+    await authStorage.removeAccessToken();
     await apolloClient.resetStore();
-  }
+  };
   useEffect(() => {
     if (data) {
       setLoggedIn(data.me);
-
     }
   }, [data]);
   useEffect(() => {
     if (error) {
-      console.error('Error fetching me:', error);
+      console.error("Error fetching me:", error);
     }
   }, [error]);
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <CreateLink to={"/"} text={"Repositories"} />
-        {loggedIn!=null ? <LogOutBtn removeToken={removeToken}/>:<CreateLink to={"signIn"} text={"Sign-In"} />}
+        <CreateLink to={"/ReviewForm"} text={"Create Review"} />
+        {loggedIn != null ? (
+          <LogOutBtn removeToken={removeToken} />
+        ) : (
+          <CreateLink to={"signIn"} text={"Sign-In"} />
+        )}
       </ScrollView>
     </View>
   );
 };
-const LogOutBtn = ({removeToken})=>(
+const LogOutBtn = ({ removeToken }) => (
   <Pressable onPress={removeToken}>
     <Text style={styles.text} fontWeight="normal" fontSize="subheading">
-        Log Out 
-      </Text>
+      Log Out
+    </Text>
   </Pressable>
-)
+);
 const CreateLink = ({ to, text }) => {
   return (
     <Link to={to}>
