@@ -45,9 +45,7 @@ export const GET_SNGLE_REPO = gql`
               username
               createdAt
               reviewCount
-              reviews {
-                totalCount
-              }
+             
             }
           }
         }

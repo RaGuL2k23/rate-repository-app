@@ -57,17 +57,24 @@ const RepositoryInfo = ({ repository }) => (
     </Pressable>
   </View>
 );
+const formatDateToDMY = (date) => {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+  const year = date.getFullYear().toString();
 
+  return `${day}/${month}/${year}`;
+};
 const ReviewItem = ({ review }) => {
   const timestamp = review.user.createdAt;
   const date = new Date(timestamp);
+  console.log('dad',review);
   return (
     <View style={styles.reviewContainer}>
       <View style={styles.count}>
-        <Text fontSize={"heading"}>{review.user.reviews.totalCount}</Text>
+        <Text fontSize={"heading"}>{review.rating}</Text>
       </View>
       <View>
-        <Text>{date.toLocaleDateString()}</Text>
+        <Text>{formatDateToDMY(date)}</Text>
         <Text style={styles.reviewUser}>{review.user.username}</Text>
         <Text style={styles.reviewText}>{review.text}</Text>
       </View>

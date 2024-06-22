@@ -3,10 +3,7 @@ import { CREATE_REVIEW } from "../graphql/mutation";
 
 export const useReview = () => {
   const [mutate, result] = useMutation(CREATE_REVIEW, {
-    // onError: (error) => {
-    //   const messages = error.graphQLErrors.map((e) => e.message).join("\n");
-    //   console.log(messages);
-    // },
+    
   });
 
   const Review = async ({ repoOwner, repoName, rating, review }) => {
