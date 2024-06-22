@@ -1,35 +1,10 @@
 import { useFormik } from "formik";
 import Text from "./Text";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable,  TextInput, View } from "react-native";
 import * as yup from "yup";
-import { useSignIn } from "../hooks/useSignIn";
-import { useNavigate } from "react-router-native";
+import { formStyles } from "./SignIn";
+ 
 
-export const formStyles = StyleSheet.create({
-  errorText: {
-    color: "#d73a4a",
-    fontSize: 17,
-    fontWeight: "400",
-  },
-  container: {
-    padding: 20,
-    borderWidth: 1,
-    borderBlockColor: "gray",
-  },
-  input: {
-    padding: 10,
-    fontSize: 18,
-    borderWidth: 1.3322,
-    marginVertical: 10,
-  },
-  submitBtn: {
-    color: "white",
-    padding: 6,
-    borderRadius: 7,
-    textAlign: "center",
-    marginTop: 8,
-  },
-});
 const validationSchema = yup.object().shape({
   username: yup
     .string()
@@ -41,21 +16,30 @@ const validationSchema = yup.object().shape({
     .min(5, "minimum 5 characters")
     .max(50, "Password cannot be more than 50 characters")
     .required("password is required"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref('password')], 'Passwords must match')
+    .required('Password confirmation is required')
 });
+
 const initialValues = {
-  username: "elina",
-  password: "password",
+  username: "",
+  password: "",
+  passwordConfirmation: "",
 };
-const SignInForm = ({ onSubmit }) => {
+
+const SignUpForm = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit,
   });
+
   return (
     <View style={formStyles.container}>
-      <SingInTextInput formik={formik} field={"username"} />
-      <SingInTextInput formik={formik} field={"password"} />
+      <SignUpTextInput formik={formik} field={"username"} />
+      <SignUpTextInput formik={formik} field={"password"} />
+      <SignUpTextInput formik={formik} field={"passwordConfirmation"} />
       <Pressable onPress={formik.handleSubmit}>
         <Text
           style={formStyles.submitBtn}
@@ -68,7 +52,8 @@ const SignInForm = ({ onSubmit }) => {
     </View>
   );
 };
-const SingInTextInput = ({ formik, field }) => {
+
+const SignUpTextInput = ({ formik, field }) => {
   const errorStyle = [
     formStyles.input,
     formik.touched[field] && formik.errors[field] && { borderColor: "red" },
@@ -78,9 +63,9 @@ const SingInTextInput = ({ formik, field }) => {
       <TextInput
         style={errorStyle}
         placeholder={field}
-        value={formik.values[field].toLowerCase()}
+        value={formik.values[field]}
         onChangeText={formik.handleChange(field)}
-        maxLength={8}
+        maxLength={50}
       />
       {formik.touched[field] && formik.errors[field] && (
         <Text style={formStyles.errorText}>{formik.errors[field]}</Text>
@@ -89,22 +74,19 @@ const SingInTextInput = ({ formik, field }) => {
   );
 };
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
-  const navigate = useNavigate();
-
+const UserForm = () => {
   const onSubmit = async (values) => {
     const { username, password } = values;
 
     try {
-      const data = await signIn({ username, password });
-      navigate("/");
+      console.log('User:', username, 'Password:', password);
+      // Here, you'd handle the sign-up logic, like making a request to your server
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  return <SignInForm onSubmit={onSubmit} />;
+  return <SignUpForm onSubmit={onSubmit} />;
 };
 
-export default SignIn;
+export default UserForm;

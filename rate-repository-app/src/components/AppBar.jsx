@@ -47,11 +47,18 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <CreateLink to={"/"} text={"Repositories"} />
-        <CreateLink to={"/ReviewForm"} text={"Create Review"} />
         {loggedIn != null ? (
+         <>
+         <CreateLink to={"/ReviewForm"} text={"Create Review"} />
+
           <LogOutBtn removeToken={removeToken} />
+         </>
+
         ) : (
+          <>
           <CreateLink to={"signIn"} text={"Sign-In"} />
+          <CreateLink to={"UserForm"} text={"Sign-Up"} />
+          </>    
         )}
       </ScrollView>
     </View>

@@ -18,7 +18,6 @@ export const useReview = () => {
         },
       },
     });
-    console.log(data, "hook", result.error);
 
     return data;
   };

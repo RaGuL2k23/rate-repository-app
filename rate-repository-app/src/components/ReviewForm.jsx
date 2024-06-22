@@ -1,35 +1,11 @@
 import { useFormik } from "formik";
 import Text from "./Text";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable,  TextInput, View } from "react-native";
 import * as yup from "yup";
 import { useReview } from "../hooks/useReview";
 import { useNavigate } from "react-router-native";
 
-export const formStyles = StyleSheet.create({
-  errorText: {
-    color: "#d73a4a",
-    fontSize: 17,
-    fontWeight: "400",
-  },
-  container: {
-    padding: 20,
-    borderWidth: 1,
-    borderBlockColor: "gray",
-  },
-  input: {
-    padding: 10,
-    fontSize: 18,
-    borderWidth: 1.3322,
-    marginVertical: 10,
-  },
-  submitBtn: {
-    color: "white",
-    padding: 6,
-    borderRadius: 7,
-    textAlign: "center",
-    marginTop: 8,
-  },
-});
+import { formStyles } from "./SignIn";
 
 const validationSchema = yup.object().shape({
   repoOwner: yup.string().required("Repository owner's username is required"),
@@ -105,11 +81,9 @@ const CreateReview = () => {
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     const { repoOwner, repoName, rating, review } = values;
-    console.log({ repoOwner, repoName, rating, review }, "values");
 
     try {
       const data = await Review({ repoOwner, repoName, rating, review });
-        console.log('reve',data);
         navigate(`/repositoryView/${data.createReview.repositoryId}`);
     } catch (e) {
       console.log(e.message);

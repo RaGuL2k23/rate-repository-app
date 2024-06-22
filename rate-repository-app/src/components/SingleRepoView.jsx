@@ -38,8 +38,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 5,
   },
-  reviewText: {
-    marginVertical: 10,
+  reviewText: { 
+    maxWidth: "80%",
+
   },
 });
 
@@ -67,15 +68,15 @@ const formatDateToDMY = (date) => {
 const ReviewItem = ({ review }) => {
   const timestamp = review.user.createdAt;
   const date = new Date(timestamp);
-  console.log('dad',review);
+  // log('dad',review);
   return (
     <View style={styles.reviewContainer}>
       <View style={styles.count}>
-        <Text fontSize={"heading"}>{review.rating}</Text>
+        <Text   fontSize={"heading"}>{review.rating}</Text>
       </View>
       <View>
-        <Text>{formatDateToDMY(date)}</Text>
-        <Text style={styles.reviewUser}>{review.user.username}</Text>
+        <Text fontSize={"subheading"}>{formatDateToDMY(date)}</Text>
+        <Text fontSize={"subheading"} style={styles.reviewUser}>{review.user.username}</Text>
         <Text style={styles.reviewText}>{review.text}</Text>
       </View>
     </View>
