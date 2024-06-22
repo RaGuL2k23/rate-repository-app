@@ -43,6 +43,11 @@ export const GET_SNGLE_REPO = gql`
           user {
             id
             username
+            createdAt
+            reviewCount
+            reviews {
+            totalCount
+          }
           }
         }
       }
