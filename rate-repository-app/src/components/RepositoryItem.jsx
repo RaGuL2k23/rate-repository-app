@@ -28,12 +28,13 @@ const style = StyleSheet.create({
   },
 });
 const ItemDetails = ({ item }) => (
-  <View style={style.Details}>
+  <View  style={style.Details}>
     <Text fontSize={"heading"}>{item.fullName}</Text>
     <Text fontSize={"subheading"} style={{ marginVertical: 10 }}>
       {item.description}
     </Text>
     <Text
+    testID="language"
       style={style.languageText}
       backgroundColor="primary"
       fontSize={"subheading"}
@@ -44,7 +45,7 @@ const ItemDetails = ({ item }) => (
 );
 const RepositoryItem = ({ item }) => {
   return (
-    <View style={style.container}>
+    <View  testID="repositoryItem" style={style.container}>
       <View style={{ display: "flex", flexDirection: "row", gap: 40 }}>
         <Image
           style={style.tinyLogo}
