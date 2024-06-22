@@ -1,6 +1,7 @@
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable } from "react-native";
 import Text from "./Text";
-
+import { useNavigate } from "react-router-native";
+ 
 const style = StyleSheet.create({
   tinyLogo: {
     width: 70,
@@ -28,13 +29,13 @@ const style = StyleSheet.create({
   },
 });
 const ItemDetails = ({ item }) => (
-  <View  style={style.Details}>
+  <View style={style.Details}>
     <Text fontSize={"heading"}>{item.fullName}</Text>
     <Text fontSize={"subheading"} style={{ marginVertical: 10 }}>
       {item.description}
     </Text>
     <Text
-    testID="language"
+      testID="language"
       style={style.languageText}
       backgroundColor="primary"
       fontSize={"subheading"}
@@ -43,21 +44,24 @@ const ItemDetails = ({ item }) => (
     </Text>
   </View>
 );
-const RepositoryItem = ({ item }) => {
+export const RepositoryItem = ({ item }) => {
+  const navigate = useNavigate();
   return (
-    <View  testID="repositoryItem" style={style.container}>
-      <View style={{ display: "flex", flexDirection: "row", gap: 40 }}>
-        <Image
-          style={style.tinyLogo}
-          source={{
-            uri: item.ownerAvatarUrl,
-          }}
-        />
-        <ItemDetails item={item} />
-      </View>
+    <Pressable onPress={()=>navigate(`/repositoryView/${item.id}`)}>
+      <View testID="repositoryItem" style={style.container}>
+        <View style={{ display: "flex", flexDirection: "row", gap: 40 }}>
+          <Image
+            style={style.tinyLogo}
+            source={{
+              uri: item.ownerAvatarUrl,
+            }}
+          />
+          <ItemDetails item={item} />
+        </View>
 
-      <ItemStats item={item} />
-    </View>
+        <ItemStats item={item} />
+      </View>
+    </Pressable>
   );
 };
 
