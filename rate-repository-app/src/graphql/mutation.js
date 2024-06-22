@@ -11,25 +11,9 @@ export const GET_USER_ACCESS_TOKEN = gql`
 export const CREATE_REVIEW = gql`
   mutation ($review: CreateReviewInput) {
     createReview(review: $review) {
-      id
-      user {
-        username
-      }
-      repository {
-        createdAt
-        description
-        ownerName
-        ownerAvatarUrl
-        fullName
-        url
-        watchersCount
-      }
-
-      userId
+         
       repositoryId
-      rating
-      createdAt
-      text
+     
     }
   }
 `;
