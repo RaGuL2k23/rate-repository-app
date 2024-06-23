@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { GET_REPOSITORIES } from "../graphql/queries";
 
 const useRepositories = () => {
+  const [orderDirection, setOrderDirection] = useState('DESC');
+  const [orderBy, setOrderBy] = useState('CREATED_AT');
+
   const { data, loading, error, refetch } = useQuery(GET_REPOSITORIES, {
-    fetchPolicy: "cache-and-network",
-    variables:{    
-        "orderDirection": "ASC",
-        "orderBy":  "RATING_AVERAGE",//RATING_AVERAGE CREATED_AT
-        "searchKeyword": "",    
-    }
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      orderDirection,
+      orderBy,
+    },
   });
+
   const [repositories, setRepositories] = useState();
 
   useEffect(() => {
@@ -25,7 +28,23 @@ const useRepositories = () => {
     }
   }, [error]);
 
-  return { repositories, loading, refetch };
+  const changeOrderDirection = (direction) => {
+    setOrderDirection(direction);
+    refetch({
+      orderDirection: direction,
+      orderBy,
+    });
+  };
+
+  const changeOrderBy = (newOrderBy) => {
+    setOrderBy(newOrderBy);
+    refetch({
+      orderDirection,
+      orderBy: newOrderBy,
+    });
+  };
+
+  return { repositories, loading, refetch, changeOrderDirection, changeOrderBy };
 };
 
 export default useRepositories;

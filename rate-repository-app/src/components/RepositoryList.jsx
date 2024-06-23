@@ -1,6 +1,8 @@
 import { FlatList, View, StyleSheet } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../hooks/useRepositories";
+import OptionPicker from '../utils/optionPicker'
+import Text from "./Text";
 
 const styles = StyleSheet.create({
   separator: {
@@ -8,26 +10,27 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RepositoryListContainer = ({ repositories }) => {
+export const RepositoryListContainer = ({ repositories, changeOrderDirection, changeOrderBy }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
   const ItemSeparator = () => <View style={styles.separator} />;
-
-  return (
+   return (
     <>
       <FlatList
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={({ item }) => <RepositoryItem item={item} />}
+        ListHeaderComponent={<OptionPicker changeOrderBy={changeOrderBy} changeOrderDirection={changeOrderDirection} />}
       />
     </>
   );
 };
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
-
-  return <RepositoryListContainer repositories={repositories} />;
+  const { repositories,loading ,changeOrderDirection, changeOrderBy } = useRepositories();
+  console.log('loadi',loading);
+  if (loading) <Text fontSize={"heading"}>Loading...</Text>
+  return <RepositoryListContainer repositories={repositories } changeOrderDirection={changeOrderDirection} changeOrderBy={changeOrderBy} />;
 };
 
 export default RepositoryList;
