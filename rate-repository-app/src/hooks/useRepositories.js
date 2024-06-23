@@ -5,6 +5,11 @@ import { GET_REPOSITORIES } from "../graphql/queries";
 const useRepositories = () => {
   const { data, loading, error, refetch } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: "cache-and-network",
+    variables:{    
+        "orderDirection": "ASC",
+        "orderBy":  "RATING_AVERAGE",//RATING_AVERAGE CREATED_AT
+        "searchKeyword": "",    
+    }
   });
   const [repositories, setRepositories] = useState();
 
