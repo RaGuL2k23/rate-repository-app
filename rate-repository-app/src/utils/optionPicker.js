@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Pressable, View } from 'react-native';
-import { Button, Menu, PaperProvider } from 'react-native-paper';
+import { Pressable, View, StyleSheet } from 'react-native';
+import { Menu, PaperProvider } from 'react-native-paper';
 import Text from '../components/Text';
 
 const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
@@ -19,7 +19,14 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
   };
 
   const handleSelection = (option, direction = null) => {
-    setSelectedOption(option+' '+direction);
+    let optionLabel = '';
+    if (option === 'RATING_AVERAGE') {
+      optionLabel = direction === 'DESC' ? 'HIGHEST RATING' : 'LOWEST RATING';
+    } else if (option === 'CREATED_AT') {
+      optionLabel = 'DATE';
+    }
+
+    setSelectedOption(optionLabel);
     changeOrderBy(option);
     if (direction) {
       changeOrderDirection(direction);
@@ -29,21 +36,20 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
 
   return (
     <PaperProvider>
-      <View
-        style={{
-          marginBottom: margin,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
+      <View style={{...styles.container, marginBottom: margin}}>
         <Menu
           visible={visible}
           onDismiss={closeMenu}
-          anchor={<Pressable  onPress={openMenu}><Text  style={{backgroundColor:'purple',color:'white'}} fontSize={"heading"}>Sort By: {selectedOption}</Text></Pressable>}
+          anchor={
+            <Pressable style={styles.pressable} onPress={openMenu}>
+              <Text style={styles.text} fontSize="subheading">
+                Sort By: {selectedOption}
+              </Text>
+            </Pressable>
+          }
         >
           <Menu.Item
-            onPress={() => handleSelection('RATING_AVERAGE',"DESC")}
+            onPress={() => handleSelection('RATING_AVERAGE', 'DESC')}
             title="HIGHEST RATING"
           />
           <Menu.Item
@@ -51,7 +57,7 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
             title="LOWEST RATING"
           />
           <Menu.Item
-            onPress={() => handleSelection('CREATED_AT','DESC')}
+            onPress={() => handleSelection('CREATED_AT', 'DESC')}
             title="DATE"
           />
         </Menu>
@@ -59,5 +65,24 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
     </PaperProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  pressable: {
+    flex: 1,
+  },
+  text: {
+    // position:'absolute',
+    // top:50,bottom:50,
+    padding: 10,
+    backgroundColor: 'purple',
+    color: 'white',
+    textAlign: 'center',
+  },
+});
 
 export default MyComponent;

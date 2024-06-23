@@ -28,7 +28,6 @@ export const RepositoryListContainer = ({ repositories, changeOrderDirection, ch
 };
 const RepositoryList = () => {
   const { repositories,loading ,changeOrderDirection, changeOrderBy } = useRepositories();
-  console.log('loadi',loading);
   if (loading) <Text fontSize={"heading"}>Loading...</Text>
   return <RepositoryListContainer repositories={repositories } changeOrderDirection={changeOrderDirection} changeOrderBy={changeOrderBy} />;
 };
