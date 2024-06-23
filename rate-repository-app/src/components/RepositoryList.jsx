@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export const RepositoryListContainer = ({ repositories, changeOrderDirection, changeOrderBy,changeSearchQuery }) => {
+export const RepositoryListContainer = ({onEndReach, repositories, changeOrderDirection, changeOrderBy,changeSearchQuery }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery] = useDebounce(searchQuery, 500);
   useEffect(()=>{
@@ -33,22 +33,33 @@ export const RepositoryListContainer = ({ repositories, changeOrderDirection, ch
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={({ item }) => <RepositoryItem item={item} />}
-        ListHeaderComponent={ <>
-          <OptionPicker changeOrderBy={changeOrderBy} changeOrderDirection={changeOrderDirection}/>
-        <Searchbar
-        placeholder="Search"
-        onChangeText={setSearchQuery}
-        value={searchQuery}
-      />
-        </>}
+        ListHeaderComponent={
+          <>
+            <OptionPicker changeOrderBy={changeOrderBy} changeOrderDirection={changeOrderDirection} />
+            <Searchbar
+              placeholder="Search"
+              onChangeText={setSearchQuery}
+              value={searchQuery}
+            />
+          </>
+        }
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
       />
     </>
   );
-};
+};  
+
+
 const RepositoryList = () => {
-  const { repositories,loading ,changeOrderDirection, changeOrderBy,changeSearchQuery } = useRepositories();
+  const {fetchMore, repositories,loading ,changeOrderDirection, changeOrderBy,changeSearchQuery } = useRepositories();
+
+  const onEndReach = () => {
+    console.log('You have reached the end of the list');
+    fetchMore();
+  };
   if (loading) <Text fontSize={"heading"}>Loading...</Text>
-  return <RepositoryListContainer changeSearchQuery={changeSearchQuery} repositories={repositories } changeOrderDirection={changeOrderDirection} changeOrderBy={changeOrderBy} />;
+  return <RepositoryListContainer onEndReach={onEndReach} changeSearchQuery={changeSearchQuery} repositories={repositories } changeOrderDirection={changeOrderDirection} changeOrderBy={changeOrderBy} />;
 };
 
 export default RepositoryList;

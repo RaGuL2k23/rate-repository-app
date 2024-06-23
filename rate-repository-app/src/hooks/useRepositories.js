@@ -7,28 +7,32 @@ const useRepositories = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [searchQuery,setSearchQuery] = useState('');
 
-  const { data, loading, error, refetch } = useQuery(GET_REPOSITORIES, {
+  const variables = {
+    orderDirection,
+    orderBy,
+    searchKeyword:searchQuery
+  }
+
+  const { data, loading,fetchMore,  refetch } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
-    variables: {
-      orderDirection,
-      orderBy,
-      searchKeyword:searchQuery
-    },
+     ...variables
   });
-
-  const [repositories, setRepositories] = useState();
-
-  useEffect(() => {
-    if (data) {
-      setRepositories(data.repositories);
+  const handleFetchMore = () => {
+    const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
+    console.log('fetchmore',canFetchMore);
+    if (!canFetchMore) {
+      return;
     }
-  }, [data]);
 
-  useEffect(() => {
-    if (error) {
-      console.error("Error fetching repositories:", error);
-    }
-  }, [error]);
+    fetchMore({
+      variables: {
+        after: data.repositories.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
+
+  
 
   const changeOrderDirection = (direction) => {
     setOrderDirection(direction);
@@ -50,7 +54,7 @@ const useRepositories = () => {
     setSearchQuery(query);
   }
 
-  return { repositories, loading, refetch, changeOrderDirection, changeOrderBy, changeSearchQuery };
+  return {fetchMore:handleFetchMore, repositories:data?.repositories, loading, refetch, changeOrderDirection, changeOrderBy, changeSearchQuery };
 };
 
 export default useRepositories;
