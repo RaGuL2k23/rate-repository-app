@@ -23,7 +23,7 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
     if (option === 'RATING_AVERAGE') {
       optionLabel = direction === 'DESC' ? 'HIGHEST RATING' : 'LOWEST RATING';
     } else if (option === 'CREATED_AT') {
-      optionLabel = 'DATE';
+      optionLabel = 'Latest Repos';
     }
 
     setSelectedOption(optionLabel);
@@ -43,7 +43,7 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
           anchor={
             <Pressable style={styles.pressable} onPress={openMenu}>
               <Text style={styles.text} fontSize="subheading">
-                Sort By: {selectedOption}
+                 {selectedOption}
               </Text>
             </Pressable>
           }
@@ -58,7 +58,7 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
           />
           <Menu.Item
             onPress={() => handleSelection('CREATED_AT', 'DESC')}
-            title="DATE"
+            title="Latest Repos"
           />
         </Menu>
       </View>
@@ -68,16 +68,20 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    position: 'none',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1000,
+    padding: 10,
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   pressable: {
     flex: 1,
   },
   text: {
-    // position:'absolute',
-    // top:50,bottom:50,
     padding: 10,
     backgroundColor: 'purple',
     color: 'white',
