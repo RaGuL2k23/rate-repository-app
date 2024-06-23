@@ -89,6 +89,10 @@ const SingleRepository = () => {
     variables: { repositoryId: id },
   });
 
+  const onEndReach = () => {
+    console.log('You have reached the end of the list');
+    // fetchMore();
+  };
   if (error) {
     return (
       <Text color={"primary"} fontSize={"heading"}>
@@ -114,6 +118,8 @@ const SingleRepository = () => {
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={5}
     />
   );
 };

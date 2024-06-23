@@ -31,14 +31,14 @@ export const GET_ME = gql`
   }
 `;
 export const GET_SNGLE_REPO = gql`
-  query ($repositoryId: ID!) {
-    repository(id: $repositoryId) {
+  query ($repositoryId: ID!,$after: String )  {
+    repository(id: $repositoryId ) {
       ...RepositoryDetails
       url
       ownerName
       id
       fullName
-      reviews {
+      reviews( after: $after ) {
         edges {
           node {
             id
@@ -60,6 +60,7 @@ export const GET_SNGLE_REPO = gql`
   ${REPOSITORY_DETAILS}
 `;
 
+
 export const GET_MY_REVIEWS = gql`
 query{
   me{ 
@@ -79,6 +80,7 @@ query{
   }
 }
 `
+
 // openIssuesCount
 // url
 // user

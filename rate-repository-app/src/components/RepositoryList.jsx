@@ -55,7 +55,6 @@ const RepositoryList = () => {
   const {fetchMore, repositories,loading ,changeOrderDirection, changeOrderBy,changeSearchQuery } = useRepositories();
 
   const onEndReach = () => {
-    console.log('You have reached the end of the list');
     fetchMore();
   };
   if (loading) <Text fontSize={"heading"}>Loading...</Text>
