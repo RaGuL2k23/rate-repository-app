@@ -10,9 +10,9 @@ const useRepoReviews = (repositoryId) => {
   const { data, loading,fetchMore } = useQuery(GET_SNGLE_REPO, {
      variables
   });
-  console.log(data?.repository?.reviews,'dad');
+  console.log(data?.repository.reviews.pageInfo,'dad');
   const handleFetchMore = () => {
-    const canFetchMore = !loading && data?.repository?.reviews?.pageInfo?.hasNextPage;
+    const canFetchMore = !loading && data?.repository.reviews.pageInfo.hasNextPage;
     console.log('fetchmore',canFetchMore);
     if (!canFetchMore) {
       return;
@@ -32,7 +32,7 @@ const useRepoReviews = (repositoryId) => {
 
   
 
-  return {fetchMore:handleFetchMore, repository:data?.repository, loading  };
+  return {data,fetchMore:handleFetchMore, repository:data?.repository, loading  };
 };
 
 export default useRepoReviews;

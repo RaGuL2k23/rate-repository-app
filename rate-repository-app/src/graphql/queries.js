@@ -54,13 +54,47 @@ export const GET_SNGLE_REPO = gql`
             }
           }
         }
+          pageInfo {
+            endCursor
+            startCursor
+            hasNextPage
+          }
       }
+    
     }
   }
   ${REPOSITORY_DETAILS}
 `;
 
-
+export const d = gql`
+query{
+repository(id: "jaredpalmer.formik") {
+    id
+    fullName
+    reviews(first: 2, after: "WyIxYjEwZTRkOC01N2VlLTRkMDAtODg4Ni1lNGEwNDlkN2ZmOGYuamFyZWRwYWxtZXIuZm9ybWlrIiwxNTg4NjU2NzUwMDgwXQ==") {
+      totalCount
+      edges {
+        node {
+          id
+          text
+          rating
+          createdAt
+          repositoryId
+          user {
+            id
+            username
+          }
+        }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+      }
+    }
+  }
+}`
 export const GET_MY_REVIEWS = gql`
 query{
   me{ 

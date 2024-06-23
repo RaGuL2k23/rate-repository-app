@@ -1,9 +1,8 @@
 import { FlatList, Linking, Pressable, StyleSheet, View } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import Text from "./Text";
-import { useQuery } from "@apollo/client";
-import { GET_SNGLE_REPO } from "../graphql/queries";
 import { useParams } from "react-router-native";
+import useRepoReviews from "../hooks/useRepoReviews";
 export const ItemSeparator = () => <View style={ReviewStyle.separator} />;
 
 export const ReviewStyle = StyleSheet.create({
@@ -85,13 +84,11 @@ const DisplayReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const { id } = useParams("/repositoryView/:id");
-  const { data, loading, error } = useQuery(GET_SNGLE_REPO, {
-    variables: { repositoryId: id },
-  });
+  const {fetchMore, data, loading, error } = useRepoReviews(id)
 
   const onEndReach = () => {
     console.log('You have reached the end of the list');
-    // fetchMore();
+    fetchMore();
   };
   if (error) {
     return (
@@ -109,7 +106,7 @@ const SingleRepository = () => {
     );
   }
 
-  const repository = data.repository;
+  const repository = data?.repository;
   const reviews = repository.reviews.edges.map((edge) => edge.node);
   return (
     <FlatList
@@ -119,7 +116,7 @@ const SingleRepository = () => {
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
       onEndReached={onEndReach}
-      onEndReachedThreshold={5}
+      onEndReachedThreshold={0.5}
     />
   );
 };
