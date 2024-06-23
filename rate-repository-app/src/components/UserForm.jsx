@@ -3,6 +3,8 @@ import Text from "./Text";
 import { Pressable,  TextInput, View } from "react-native";
 import * as yup from "yup";
 import { formStyles } from "./SignIn";
+import { useCreateUser } from "../hooks/useUser";
+import { useNavigate } from "react-router-native";
  
 
 const validationSchema = yup.object().shape({
@@ -23,9 +25,9 @@ const validationSchema = yup.object().shape({
 });
 
 const initialValues = {
-  username: "",
-  password: "",
-  passwordConfirmation: "",
+  username: "ragul",
+  password: "password",
+  passwordConfirmation: "password",
 };
 
 const SignUpForm = ({ onSubmit }) => {
@@ -75,14 +77,18 @@ const SignUpTextInput = ({ formik, field }) => {
 };
 
 const UserForm = () => {
+  const [createUser] = useCreateUser()
+  const navigate = useNavigate();
+
   const onSubmit = async (values) => {
     const { username, password } = values;
-
+    
     try {
-      console.log('User:', username, 'Password:', password);
-      // Here, you'd handle the sign-up logic, like making a request to your server
+      const data = await createUser({ username, password });
+      navigate("/");
+
     } catch (e) {
-      console.log(e.message);
+      alert(e.message);
     }
   };
 
