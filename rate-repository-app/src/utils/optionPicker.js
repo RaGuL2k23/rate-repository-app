@@ -43,7 +43,7 @@ const MyComponent = ({ changeOrderBy, changeOrderDirection }) => {
           anchor={
             <Pressable style={styles.pressable} onPress={openMenu}>
               <Text style={styles.text} fontSize="subheading">
-                 {selectedOption}
+                sort by {selectedOption}
               </Text>
             </Pressable>
           }

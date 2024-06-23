@@ -11,6 +11,10 @@ const styles = StyleSheet.create({
 });
 
 export const RepositoryListContainer = ({ repositories, changeOrderDirection, changeOrderBy }) => {
+  const Header = () =>(
+    <OptionPicker changeOrderBy={changeOrderBy} changeOrderDirection={changeOrderDirection}/>
+
+  )
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -21,7 +25,7 @@ export const RepositoryListContainer = ({ repositories, changeOrderDirection, ch
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={({ item }) => <RepositoryItem item={item} />}
-        ListHeaderComponent={<OptionPicker changeOrderBy={changeOrderBy} changeOrderDirection={changeOrderDirection} />}
+        ListHeaderComponent={<Header/>}
       />
     </>
   );
