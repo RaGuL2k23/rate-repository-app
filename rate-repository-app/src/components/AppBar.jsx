@@ -30,8 +30,11 @@ const AppBar = () => {
     fetchPolicy: "cache-and-network",
   });
   const removeToken = async () => {
-    await authStorage.removeAccessToken();
-    await apolloClient.resetStore();
+    try{await authStorage.removeAccessToken();
+    await apolloClient.resetStore();}
+    catch(e){
+      console.log('error on logout ',e.message);
+    }
   };
   useEffect(() => {
     if (data) {

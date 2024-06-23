@@ -47,7 +47,6 @@ const useRepositories = () => {
   };
 
   const changeSearchQuery = (query) =>{
-    console.log('quer',query);
     setSearchQuery(query);
   }
 

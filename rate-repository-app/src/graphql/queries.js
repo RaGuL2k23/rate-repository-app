@@ -63,6 +63,7 @@ query{
     reviews {
       edges {
         node {
+          id
           createdAt
           text
           rating

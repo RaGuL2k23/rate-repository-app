@@ -1,9 +1,10 @@
-import { FlatList, Pressable, StyleSheet, View } from "react-native";
+import { Alert, FlatList, Pressable, StyleSheet, View } from "react-native";
 import { ItemSeparator, ReviewStyle, formatDateToDMY } from "./SingleRepoView";
 import Text from "./Text";
-import { useParams } from "react-router-native";
-import { useQuery } from "@apollo/client";
+import { useNavigate, useParams } from "react-router-native";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { GET_MY_REVIEWS } from "../graphql/queries";
+import { DELETE_REVIEW } from "../graphql/mutation";
 
 const styles = StyleSheet.create({
     btn: {
@@ -18,6 +19,36 @@ const styles = StyleSheet.create({
 const DisplayMyReviewItem = ({ review,username }) => {
     const timestamp = review.createdAt;
     const date = new Date(timestamp);
+    const navigate = useNavigate();
+    const [mutate] = useMutation(DELETE_REVIEW, {});
+    const appoloClient = useApolloClient();
+    const handleDeleteReview =async (id) =>{
+        // const [mutate] = useMutation(DELETE_REVIEW, {});
+        // await mutate();
+        
+        Alert.alert('Delete review', 'cannot be undone', [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress:async () => {  
+                 try{
+                    await mutate({
+                    variables:{
+                        "deleteReviewId":  `${id}`
+                      }
+                 });
+                appoloClient.resetStore();
+                
+                }
+                 catch(e){
+                    alert('error on deleting');
+                    console.log(e.message);
+                 }
+            } },
+          ]);
+    }
     return (
       <>
         <View style={ReviewStyle.reviewContainer}>
@@ -33,8 +64,8 @@ const DisplayMyReviewItem = ({ review,username }) => {
             
            </View>
            <View style={{flexDirection:'row',justifyContent:'space-around',padding:10}}>
-            <Pressable onPress={()=>alert()}><Text style={styles.btn}>VIEW REPOSITORY</Text></Pressable>
-            <Pressable onPress={()=>alert('sure about it')}><Text style={{...styles.btn,backgroundColor:'red'}}>DELETE</Text></Pressable>
+            <Pressable onPress={()=>navigate(`/repositoryView/${review.repositoryId}`)}><Text style={styles.btn}>VIEW REPOSITORY</Text></Pressable>
+            <Pressable onPress={()=>handleDeleteReview(review.id)}><Text style={{...styles.btn,backgroundColor:'red'}}>DELETE</Text></Pressable>
             </View>
       </>
          );
@@ -64,14 +95,15 @@ const DisplayMyReviewItem = ({ review,username }) => {
   
     // const repository = data.repository;
     // const reviews = repository.reviews.edges.map((edge) => edge.node);
-     const username = data.me.username
+     let  username = null
+     if(data.me.username)   username = data.me.username
+
     const myReviews = data.me.reviews.edges.map(e=>e.node)
     return (
       <FlatList
         data={myReviews}
         renderItem={({item}) => <DisplayMyReviewItem username={username} review={item} />}
-        keyExtractor={({ createdAt,text }) => {createdAt+text+myReviews.text+username}}
-        // ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
+        keyExtractor={({  id }) => id}
         ItemSeparatorComponent={ItemSeparator}
       />
     );
