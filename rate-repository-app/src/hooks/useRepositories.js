@@ -5,12 +5,14 @@ import { GET_REPOSITORIES } from "../graphql/queries";
 const useRepositories = () => {
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [orderBy, setOrderBy] = useState('CREATED_AT');
+  const [searchQuery,setSearchQuery] = useState('');
 
   const { data, loading, error, refetch } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
     variables: {
       orderDirection,
       orderBy,
+      searchKeyword:searchQuery
     },
   });
 
@@ -44,7 +46,12 @@ const useRepositories = () => {
     });
   };
 
-  return { repositories, loading, refetch, changeOrderDirection, changeOrderBy };
+  const changeSearchQuery = (query) =>{
+    console.log('quer',query);
+    setSearchQuery(query);
+  }
+
+  return { repositories, loading, refetch, changeOrderDirection, changeOrderBy, changeSearchQuery };
 };
 
 export default useRepositories;
