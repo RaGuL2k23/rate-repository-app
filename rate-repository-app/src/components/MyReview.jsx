@@ -93,21 +93,21 @@ const DisplayMyReviewItem = ({ review,username }) => {
         </Text>
       );
     }
-  
-    // const repository = data.repository;
-    // const reviews = repository.reviews.edges.map((edge) => edge.node);
-     let  username = null
-     if(data.me.username)   username = data.me.username
+    if(! ( data.me && "username" in data.me &&  "reviews" in data.me && data && "me" in data)) {
+        return null
+    }
+
+    const username = data.me.username
 
     const myReviews = data.me.reviews.edges.map(e=>e.node)
-    return (
-      <FlatList
-        data={myReviews}
-        renderItem={({item}) => <DisplayMyReviewItem username={username} review={item} />}
-        keyExtractor={({  id }) => id}
-        ItemSeparatorComponent={ItemSeparator}
-      />
-    );
-  };
+      return (
+        <FlatList
+          data={myReviews}
+          renderItem={({item}) => <DisplayMyReviewItem username={username} review={item} />}
+          keyExtractor={({  id }) => id}
+          ItemSeparatorComponent={ItemSeparator}
+        />
+      );
+    };
 
 export default MyReviews
