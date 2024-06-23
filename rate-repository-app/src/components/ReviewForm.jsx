@@ -86,7 +86,7 @@ const CreateReview = () => {
       const data = await Review({ repoOwner, repoName, rating, review });
         navigate(`/repositoryView/${data.createReview.repositoryId}`);
     } catch (e) {
-      console.log(e.message);
+      alert(e.message);
     }
   };
 

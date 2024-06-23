@@ -30,8 +30,7 @@ const DisplayMyReviewItem = ({ review,username }) => {
         
         Alert.alert('Delete review', 'cannot be undone', [
             {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
+              text: 'Cancel', 
               style: 'cancel',
             },
             {text: 'OK', onPress:async () => {  
@@ -45,7 +44,6 @@ const DisplayMyReviewItem = ({ review,username }) => {
                 }
                  catch(e){
                     alert('error on deleting');
-                    console.log(e.message);
                  }
             } },
           ]);

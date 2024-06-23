@@ -7,10 +7,7 @@ export const useSignIn = () => {
   const apolloClient = useApolloClient();
 
   const [mutate, result] = useMutation(GET_USER_ACCESS_TOKEN, {
-    onError: (error) => {
-      const messages = error.graphQLErrors.map((e) => e.message).join("\n");
-      console.log(messages);
-    },
+    
   });
 
   const signIn = async ({ username, password }) => {

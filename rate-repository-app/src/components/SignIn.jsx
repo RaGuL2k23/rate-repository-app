@@ -100,7 +100,7 @@ const SignIn = () => {
       const data = await signIn({ username, password });
       navigate("/");
     } catch (e) {
-      console.log(e.message);
+      alert(e.message);
     }
   };
 

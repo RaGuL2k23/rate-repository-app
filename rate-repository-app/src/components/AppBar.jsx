@@ -1,7 +1,7 @@
 import { View, StyleSheet, Pressable, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import Text from "./Text";
-import { Link } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import { useApolloClient, useQuery } from "@apollo/client";
 import { GET_ME } from "../graphql/queries";
 import { useEffect, useState } from "react";
@@ -26,14 +26,17 @@ const AppBar = () => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
   const [loggedIn, setLoggedIn] = useState();
+  const navigate = useNavigate()
   const { data, error } = useQuery(GET_ME, {
     fetchPolicy: "cache-and-network",
   });
   const removeToken = async () => {
     try{await authStorage.removeAccessToken();
-    await apolloClient.resetStore();}
+    await apolloClient.resetStore();
+    navigate('/')
+  }
     catch(e){
-      console.log('error on logout ',e.message);
+      alert('error on logout ',e.message);
     }
   };
   useEffect(() => {

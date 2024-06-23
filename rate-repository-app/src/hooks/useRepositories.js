@@ -19,7 +19,6 @@ const useRepositories = () => {
   });
   const handleFetchMore = () => {
     const canFetchMore = !loading && data?.repositories.pageInfo.hasNextPage;
-    console.log('fetchmore',canFetchMore);
     if (!canFetchMore) {
       return;
     }
