@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-native";
 import {  useMutation, useQuery } from "@apollo/client";
 import { GET_MY_REVIEWS, GET_REPOSITORIES } from "../graphql/queries";
 import { DELETE_REVIEW } from "../graphql/mutation";
+import { isArray } from "@apollo/client/utilities";
 
 const styles = StyleSheet.create({
     btn: {
@@ -91,18 +92,20 @@ const DisplayMyReviewItem = ({ review,username }) => {
         </Text>
       );
     }
-    if(! ( data.me && "username" in data.me &&  "reviews" in data.me && data && "me" in data)) {
+    if(! (data && "me" in data &&  data.me && "username" in data.me &&  "reviews" in data.me && data )) {
         return null
     }
+    if(isArray(data.me.reviews.edges) && data.me.reviews.edges.length==0){
+      return <Text style={{  justifyContent:'center',alignSelf:'center'}} color="primary" fontSize={"heading"}>NO Reviews</Text>
+    }
+    const username = data?.me.username
 
-    const username = data.me.username
-
-    const myReviews = data.me.reviews.edges.map(e=>e.node)
+    const myReviews = data?.me.reviews.edges.map(e=>e.node)
       return (
         <FlatList
           data={myReviews}
           renderItem={({item}) => <DisplayMyReviewItem username={username} review={item} />}
-          keyExtractor={({  id }) => id}
+          keyExtractor={({  id,text,createdAt }) => id+createdAt+text}
           ItemSeparatorComponent={ItemSeparator}
         />
       );

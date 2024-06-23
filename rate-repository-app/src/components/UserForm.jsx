@@ -25,9 +25,9 @@ const validationSchema = yup.object().shape({
 });
 
 const initialValues = {
-  username: "ragul",
-  password: "password",
-  passwordConfirmation: "password",
+  username: "",
+  password: "",
+  passwordConfirmation: "",
 };
 
 const SignUpForm = ({ onSubmit }) => {

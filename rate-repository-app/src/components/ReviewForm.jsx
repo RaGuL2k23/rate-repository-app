@@ -19,10 +19,10 @@ const validationSchema = yup.object().shape({
 });
 
 const initialValues = {
-  repoOwner: "ragul2k23",
-  repoName: "restaurant",
-  rating: "100",
-  review: "veraa level vro",
+  repoOwner: "",
+  repoName: "",
+  rating: "",
+  review: "",
 };
 
 const ReviewForm = ({ onSubmit }) => {
