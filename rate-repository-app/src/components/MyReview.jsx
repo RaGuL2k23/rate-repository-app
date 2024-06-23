@@ -1,9 +1,9 @@
 import { Alert, FlatList, Pressable, StyleSheet, View } from "react-native";
 import { ItemSeparator, ReviewStyle, formatDateToDMY } from "./SingleRepoView";
 import Text from "./Text";
-import { useNavigate, useParams } from "react-router-native";
-import { useApolloClient, useMutation, useQuery } from "@apollo/client";
-import { GET_MY_REVIEWS } from "../graphql/queries";
+import { useNavigate } from "react-router-native";
+import {  useMutation, useQuery } from "@apollo/client";
+import { GET_MY_REVIEWS, GET_REPOSITORIES } from "../graphql/queries";
 import { DELETE_REVIEW } from "../graphql/mutation";
 
 const styles = StyleSheet.create({
@@ -20,8 +20,10 @@ const DisplayMyReviewItem = ({ review,username }) => {
     const timestamp = review.createdAt;
     const date = new Date(timestamp);
     const navigate = useNavigate();
-    const [mutate] = useMutation(DELETE_REVIEW, {});
-    const appoloClient = useApolloClient();
+    const [mutate] = useMutation(DELETE_REVIEW, {
+      refetchQueries: [{ query: GET_MY_REVIEWS }, { query: GET_REPOSITORIES }],
+
+    });
     const handleDeleteReview =async (id) =>{
         // const [mutate] = useMutation(DELETE_REVIEW, {});
         // await mutate();
@@ -39,7 +41,6 @@ const DisplayMyReviewItem = ({ review,username }) => {
                         "deleteReviewId":  `${id}`
                       }
                  });
-                appoloClient.resetStore();
                 
                 }
                  catch(e){
@@ -74,7 +75,7 @@ const DisplayMyReviewItem = ({ review,username }) => {
   const MyReviews = () => {
     // const { id } = useParams("/myReviews/:id");
     const { data, loading, error } = useQuery(GET_MY_REVIEWS, {
-    //   variables: { repositoryId: id },
+
     });
   
     if (error) {
