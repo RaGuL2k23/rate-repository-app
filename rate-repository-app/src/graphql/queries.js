@@ -55,6 +55,24 @@ export const GET_SNGLE_REPO = gql`
   ${REPOSITORY_DETAILS}
 `;
 
+export const GET_MY_REVIEWS = gql`
+query{
+  me{ 
+    username
+    createdAt
+    reviews {
+      edges {
+        node {
+          createdAt
+          text
+          rating
+          repositoryId
+        }
+      }
+    }
+  }
+}
+`
 // openIssuesCount
 // url
 // user

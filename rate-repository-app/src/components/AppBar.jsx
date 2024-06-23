@@ -50,6 +50,7 @@ const AppBar = () => {
         {loggedIn != null ? (
          <>
          <CreateLink to={"/ReviewForm"} text={"Create Review"} />
+         <CreateLink to={"/myReviews"} text={"MY Reviews"} />
 
           <LogOutBtn removeToken={removeToken} />
          </>

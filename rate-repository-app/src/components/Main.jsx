@@ -9,6 +9,7 @@ import SignIn from "./SignIn";
 import SingleRepoView from "./SingleRepoView";
 import CreateReview from "./ReviewForm";
 import CreateUser from "./UserForm";
+import MyReviews from "./MyReview";
 
 
 const styles = StyleSheet.create({
@@ -29,6 +30,8 @@ const Main = () => {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/ReviewForm" element={<CreateReview />} />
         <Route path="/UserForm" element={<CreateUser />} />
+        <Route path="/myReviews" element={<MyReviews />} />
+
 
         <Route path="/repositoryView/:id" element={<SingleRepoView />} />
         <Route path="*" element={<RepositoryList />} />
