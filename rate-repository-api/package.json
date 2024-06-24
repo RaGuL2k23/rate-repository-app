@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "node -r esm ./src/index.js",
     "start:dev": "nodemon -r esm ./src/index.js",
