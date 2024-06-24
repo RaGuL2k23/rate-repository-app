@@ -78,7 +78,7 @@ const SingInTextInput = ({ formik, field }) => {
       <TextInput
         style={errorStyle}
         placeholder={field}
-        value={formik.values[field].toLowerCase()}
+        value={formik.values[field]}
         onChangeText={formik.handleChange(field)}
         maxLength={8}
       />
