@@ -1,8 +1,8 @@
 import http from 'http'; 
-import logger from './utils/logger';
-import { API_PORT, APOLLO_PORT } from './config';
-import createApolloServer from './apolloServer';
-import app from './app'; 
+import logger from './src/utils/logger';
+import { API_PORT, APOLLO_PORT } from './src/config';
+import createApolloServer from './src/apolloServer';
+import app from './src/app'; 
 
  
 
