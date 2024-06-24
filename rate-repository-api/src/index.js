@@ -9,7 +9,7 @@ import app from './app';
 const startServer = async () => {
   const httpServer = http.createServer(app);
 
-  const apolloServer = createApolloServer();
+   const apolloServer = createApolloServer(httpServer);
 
   await apolloServer.listen({ port: APOLLO_PORT });
 
