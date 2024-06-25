@@ -29,7 +29,7 @@ const apolloErrorFormatter = (error) => {
 
 const createApolloServer = (httpServer) => {
   return new ApolloServer({
-    resolvers,
+    resolvers,cache:'bounded',persistedQueries:false,
     typeDefs,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer }),
       {
