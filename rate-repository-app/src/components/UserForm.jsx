@@ -88,7 +88,7 @@ const UserForm = () => {
       navigate("/");
 
     } catch (e) {
-      alert(e.message);
+      console.log(e.message);
     }
   };
 
