@@ -1,22 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config();
 
 module.exports = {
   client: 'pg',
   connection: {
-    connectionString:
-      'postgres://avnadmin:AVNS_3PP0VNVPmzOtr6Aq9Wg@repo-api-repo-api.c.aivencloud.com:10231/defaultdb?sslmode=require',
+    user: 'avnadmin',
+    password: 'AVNS_3PP0VNVPmzOtr6Aq9Wg',
+    host: 'repo-api-repo-api.c.aivencloud.com',
+    port: 10231,
+    database: 'defaultdb',
     ssl: {
-      ca: fs.readFileSync(path.resolve(__dirname, 'ca (1).pem')).toString(),
       rejectUnauthorized: true,
+      ca: fs.readFileSync(path.resolve(__dirname, 'ca.pem')).toString(),
     },
   },
   pool: {
     min: 2,
     max: 10,
   },
-  // Uncomment and update the following lines if you have migrations or seeds
   // migrations: {
   //   tableName: 'knex_migrations',
   //   directory: `${__dirname}/db/migrations`,
