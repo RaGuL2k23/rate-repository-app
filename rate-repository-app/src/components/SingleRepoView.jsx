@@ -107,7 +107,10 @@ const SingleRepository = () => {
   }
 
   const repository = data?.repository;
-  const reviews = repository.reviews.edges.map((edge) => edge.node);
+  const reviews = repository?.reviews?.edges.map((edge) => edge.node);
+  if(reviews==null||reviews==undefined||reviews.length ==0){
+    return <Text fontSize={"heading"} color={"primary"}>No reviews</Text>
+  }
   return (
     <FlatList
       data={reviews}
