@@ -3,12 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "engines": {
-    "node": "20.x"
-  },
   "scripts": {
-    "start": "node -r esm ./index.js",
-    "start:dev": "nodemon -r esm ./index.js",
+    "start": "node -r esm ./src/index.js",
+    "start:dev": "nodemon -r esm ./src/index.js",
     "lint": "eslint ./src",
     "test": "jest .",
     "migrate:make": "knex migrate:make",
@@ -37,11 +34,12 @@
   },
   "homepage": "https://github.com/Kaltsoon/rate-repository-api#readme",
   "dependencies": {
-    "@koa/cors": "^5.0.0",
+    "@koa/cors": "^3.0.0",
     "apollo-server": "^3.3.0",
     "apollo-server-core": "^3.3.0",
-    "apollo-server-koa": "^3.13.0",
-    "axios": "^0.21.1",
+    "apollo-server-express": "^3.13.0",
+    "apollo-server-koa": "^3.3.0",
+    "axios": "^0.24.0",
     "bcrypt": "^5.0.0",
     "dataloader": "^2.0.0",
     "date-fns": "^2.9.0",
@@ -55,6 +53,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-morgan": "^1.0.1",
     "koa-router": "^10.0.0",
+    "koa2-cors": "^2.0.6",
     "lodash": "^4.17.15",
     "lru-cache": "^6.0.0",
     "objection": "^3.0.1",

@@ -1,11 +1,10 @@
-import Koa from 'koa';
-import cors from '@koa/cors';
-import morgan from 'koa-morgan';
-import bodyParser from 'koa-bodyparser';
-import Router from 'koa-router';
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
 import through from 'through2';
 
-import { ApplicationError, NotFoundError } from './errors';
+import { ApplicationError } from './errors';
 import createDataLoaders from './utils/createDataLoaders';
 import logger from './utils/logger';
 import api from './api';
@@ -14,44 +13,41 @@ const logStream = through((chunk) => {
   logger.info(chunk.toString());
 });
 
-const errorHandler = () => async (ctx, next) => {
-  try {
-    await next();
-  } catch (e) {
-    const normalizedError =
-      e instanceof ApplicationError
-        ? e
-        : new ApplicationError('Something went wrong');
+const errorHandler = (err, req, res, next) => {
+  const normalizedError =
+    err instanceof ApplicationError
+      ? err
+      : new ApplicationError('Something went wrong');
 
-    ctx.status = normalizedError.status || 500;
-    ctx.body = normalizedError;
+  res.status(normalizedError.status || 500).json(normalizedError);
 
-    logger.error(e, { path: ctx.request.path });
-  }
+  logger.error(err, { path: req.path });
 };
 
-const app = new Koa();
+const app = express();
 
-app.use(bodyParser());
-app.use(errorHandler());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(errorHandler);
 
 app.use(morgan('combined', { stream: logStream }));
 
-app.use(async (ctx, next) => {
-  ctx.dataLoaders = createDataLoaders();
-  await next();
+app.use((req, res, next) => {
+  req.dataLoaders = createDataLoaders();
+  next();
 });
 
 app.use(cors());
 
-const apiRouter = new Router();
+app.use('/api', api);
 
-apiRouter.use('/api', api.routes());
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
-app.use(apiRouter.routes());
-
-app.use((ctx) => {
-  throw new NotFoundError(`The path "${ctx.request.path}" is not found`);
-});
+app.use(cors(corsOptions));
 
 export default app;

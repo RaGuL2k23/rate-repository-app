@@ -1,8 +1,7 @@
-import Router from 'koa-router';
-
+import express from 'express';
 import getRepositories from './getRepositories';
 
-const router = new Router();
+const router = express.Router();
 
 router.get('/', getRepositories);
 

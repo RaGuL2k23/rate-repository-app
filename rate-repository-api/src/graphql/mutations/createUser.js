@@ -44,7 +44,6 @@ const createPasswordHash = (password) => bcrypt.hash(password, 10);
 export const resolvers = {
   Mutation: {
     createUser: async (obj, args) => {
-      console.log('dad');
       const {
         user: { password, username, ...user },
       } = await argsSchema.validate(args, {

@@ -58,13 +58,11 @@ const cursorPaginate = async (
   const cursorCountQuery = cursorQuery
     .clone()
     .count({ count: '*' })
-    .groupBy('id')
     .first();
 
   const totalCountQuery = builder
     .clone()
     .count({ count: '*' })
-    .groupBy('id')
     .first();
 
   const [rows, cursorCountObject, totalCountObject] = await Promise.all([

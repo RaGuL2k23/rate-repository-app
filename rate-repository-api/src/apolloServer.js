@@ -5,7 +5,6 @@ import AuthService from './utils/authService';
 import createDataLoaders from './utils/createDataLoaders';
 import logger from './utils/logger';
 import { resolvers, typeDefs } from './graphql/schema';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core/dist/plugin/drainHttpServer';
 
 const apolloErrorFormatter = (error) => {
   logger.error(error);
@@ -27,20 +26,10 @@ const apolloErrorFormatter = (error) => {
   return normalizedError;
 };
 
-const createApolloServer = (httpServer) => {
+const createApolloServer = () => {
   return new ApolloServer({
-    resolvers,cache:'bounded',persistedQueries:false,
+    resolvers,
     typeDefs,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer }),
-      {
-        async serverWillStart() {
-          return {
-            async drainServer() {
-              // await serverclean.dispose();
-            },
-          };
-        },
-      },],
     formatError: apolloErrorFormatter,
     context: ({ req }) => {
       const authorization = req.headers.authorization;
