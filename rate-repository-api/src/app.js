@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import morgan from 'morgan';
+// import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import through from 'through2';
 
@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(errorHandler);
 
-app.use(morgan('combined', { stream: logStream }));
+// app.use(morgan('combined', { stream: logStream }));
 
 app.use((req, res, next) => {
   req.dataLoaders = createDataLoaders();
