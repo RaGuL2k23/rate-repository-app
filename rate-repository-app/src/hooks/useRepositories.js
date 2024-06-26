@@ -54,7 +54,7 @@ const useRepositories = () => {
   const changeSearchQuery = (query) =>{
     setSearchQuery(query);
   }
-
+  console.log('working',data?.repositories,data);
   return {fetchMore:handleFetchMore, repositories:data?.repositories, loading, refetch, changeOrderDirection, changeOrderBy, changeSearchQuery };
 };
 
