@@ -1,4 +1,6 @@
-import { ApolloServer, toApolloError, ApolloError } from 'apollo-server';
+import {  toApolloError, ApolloError } from 'apollo-server';
+const { ApolloServer } = require('@apollo/server')
+
 import { ValidationError } from 'yup';
 
 import AuthService from './utils/authService';
