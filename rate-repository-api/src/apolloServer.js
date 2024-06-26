@@ -1,4 +1,6 @@
-import { ApolloServer, toApolloError, ApolloError } from 'apollo-server';
+import {  toApolloError, ApolloError } from 'apollo-server';
+const { ApolloServer } = require('@apollo/server')
+
 import { ValidationError } from 'yup';
 
 import AuthService from './utils/authService';
@@ -30,22 +32,27 @@ const createApolloServer = () => {
   return new ApolloServer({
     resolvers,
     typeDefs,
+    connectToDevTools: true,
     formatError: apolloErrorFormatter,
     context: ({ req }) => {
       const authorization = req.headers.authorization;
-
-      const accessToken = authorization
-        ? authorization.split(' ')[1]
-        : undefined;
+      const accessToken = authorization ? authorization.split(' ')[1] : undefined;
       const dataLoaders = createDataLoaders();
 
       return {
         authService: new AuthService({
           accessToken,
           dataLoaders,
+          'Apollo-Require-Preflight': 'true'
         }),
         dataLoaders,
       };
+    },
+    // Add the header configuration here
+    cors: {
+      origin: '*',
+      credentials: true,
+      allowedHeaders: ['Apollo-Require-Preflight', 'Content-Type', 'Authorization'],
     },
   });
 };
