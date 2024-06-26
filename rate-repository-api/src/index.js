@@ -17,7 +17,15 @@ const startServer = async () => {
 
   app.use(
     '/',
-    cors(),
+    cors({
+      methods: ['GET', 'POST', 'OPTIONS'],
+      credentials: true,
+      maxAge: 600,
+      origin: [
+        'http://example.com',
+        'https://studio.apollographql.com'
+      ],
+    }),
     express.json(),
     expressMiddleware(apolloServer, {
       context: async () => {
@@ -31,7 +39,7 @@ const startServer = async () => {
     httpServer.listen({ port: API_PORT }, resolve),
   );
 
-  logger.info(`Apollo Server ready at http://localhost:${APOLLO_PORT}`);
+  logger.info(`Apollo Server ready at http://localhost:${API_PORT}`);
 };
 
 startServer();
