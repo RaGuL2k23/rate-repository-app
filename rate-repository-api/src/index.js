@@ -39,7 +39,6 @@ const startServer = async () => {
       },
     }),
   );
-  // await apolloServer.listen({ port: APOLLO_PORT });
 
   await new Promise((resolve) =>
     httpServer.listen({ port: API_PORT }, resolve),
