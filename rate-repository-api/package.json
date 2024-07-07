@@ -4,13 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node -r esm ./src/index.js",
-    "start:dev": "nodemon -r esm ./src/index.js",
+    "start": "node -r esm ./api/index.js",
+    "start:dev": "nodemon -r esm ./api/index.js",
     "lint": "eslint ./src",
     "test": "jest .",
     "migrate:make": "knex migrate:make",
-    "migrate:latest": "knex migrate:latest",
-    "build": "npm run migrate:latest",
+    "migrate:latest": "knex migrate:latest", 
     "seed:make": "knex seed:make",
     "seed:run": "knex seed:run"
   },
