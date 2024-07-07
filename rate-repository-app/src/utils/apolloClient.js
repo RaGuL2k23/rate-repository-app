@@ -7,45 +7,44 @@ import { relayStylePagination } from '@apollo/client/utilities';
 const { APOLLO_URI } = Constants.expoConfig.extra;
 
 const httpLink = createHttpLink({
-  uri: APOLLO_URI,
-});
+  uri:  "http://192.168.105.2:4005/", 
+  });
 
-
-const cache = new InMemoryCache({
-  typePolicies: {
-    Query: {
-      fields: {
-        repositories: relayStylePagination(),
+  const cache = new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          repositories: relayStylePagination(),
+        },
       },
     },
-  },
-});
-
-const createApolloClient = (authStorage) => {
-  const authLink = setContext(async (_, { headers }) => {
-    try {
-      const accessToken = await authStorage.getAccessToken();
-
-      return {
-        headers: {
-          ...headers,
-          authorization: accessToken ? `Bearer ${accessToken}` : '',
-        },
-      };
-    } catch (e) {
-      console.log(e);
-
-      return {
-        headers,
-      };
-    }
   });
-
-  return new ApolloClient({
-    link: authLink.concat(httpLink),
-
-    cache,
-  });
-};
-
-export default createApolloClient;
+  
+  const createApolloClient = (authStorage) => {
+    const authLink = setContext(async (_, { headers }) => {
+      try {
+        const accessToken = await authStorage.getAccessToken();
+  
+        return {
+          headers: {
+            ...headers,
+            authorization: accessToken ? `Bearer ${accessToken}` : '',
+          },
+        };
+      } catch (e) {
+        console.log(e);
+  
+        return {
+          headers,
+        };
+      }
+    });
+  
+    return new ApolloClient({
+      link: authLink.concat(httpLink),
+  
+      cache,
+    });
+  };
+  
+  export default createApolloClient;
