@@ -1,12 +1,18 @@
+const fs = require('fs');
+const path = require('path');
+
 module.exports = {
   client: 'pg',
   connection: {
-    host: '35.227.164.209', // or 'dpg-cptb186ehbks73f260bg-a.oregon-postgres.render.com'
-    port: 5432,
-    user: 'rocky',
-    password: 'Z139GFJLSbDzm9AUtzGtSWXIwrV2S0Ck',
-    database: 'rate_repo',
-    ssl: { rejectUnauthorized: false }, // If your PostgreSQL server requires SSL
+    user: 'avnadmin',
+    password: 'AVNS_3PP0VNVPmzOtr6Aq9Wg',
+    host: 'repo-api-repo-api.c.aivencloud.com',
+    port: 10231,
+    database: 'defaultdb',
+    ssl: {
+      rejectUnauthorized: true,
+      ca: fs.readFileSync(path.resolve(__dirname, 'ca.pem')).toString(),
+    },
   },
   pool: {
     min: 2,
