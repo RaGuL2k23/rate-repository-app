@@ -9,7 +9,6 @@ import useAuthStorage from "../hooks/useAuthStorage";
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#e1e4e8",
