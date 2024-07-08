@@ -7,7 +7,7 @@ import { relayStylePagination } from '@apollo/client/utilities';
 const { APOLLO_URI } = Constants.expoConfig.extra;
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:5000/"
+  uri: APOLLO_URI
 });
 
 
