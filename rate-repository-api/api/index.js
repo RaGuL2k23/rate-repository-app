@@ -1,21 +1,20 @@
 import http from 'http';
-import cors from 'cors'
-import logger from '../src/utils/logger';
-import { API_PORT, APOLLO_PORT } from '../src/config';
-import createApolloServer from '../src/apolloServer';
-import app from '../src/app';
+import cors from 'cors';
+import logger from './utils/logger';
+import { API_PORT } from './config';
+import createApolloServer from './apolloServer';
+import app from './app';
 import express from 'express';
 
 import { expressMiddleware } from '@apollo/server/express4';
-import AuthService from '../src/utils/authService';
-import createDataLoaders from '../src/utils/createDataLoaders';
-
+import AuthService from './utils/authService';
+import createDataLoaders from './utils/createDataLoaders';
 
 const startServer = async () => {
   const httpServer = http.createServer(app);
   const apolloServer = createApolloServer();
-  
-  await apolloServer.start()
+
+  await apolloServer.start();
 
   app.use(
     '/',
@@ -24,12 +23,12 @@ const startServer = async () => {
     expressMiddleware(apolloServer, {
       context: ({ req }) => {
         const authorization = req.headers.authorization;
-  
+
         const accessToken = authorization
           ? authorization.split(' ')[1]
           : undefined;
         const dataLoaders = createDataLoaders();
-  
+
         return {
           authService: new AuthService({
             accessToken,
@@ -39,8 +38,7 @@ const startServer = async () => {
         };
       },
     }),
-  )
-  // await apolloServer.listen({ port: APOLLO_PORT }); 
+  );
 
   await new Promise((resolve) =>
     httpServer.listen({ port: API_PORT }, resolve),
