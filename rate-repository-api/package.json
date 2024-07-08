@@ -10,7 +10,7 @@
     "test": "jest .",
     "migrate:make": "knex migrate:make",
     "migrate:latest": "knex migrate:latest",
-    "build": "npm run migrate:latest",
+    "buildd": "npm run migrate:latest",
     "seed:make": "knex seed:make",
     "seed:run": "knex seed:run"
   },

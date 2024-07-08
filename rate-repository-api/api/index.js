@@ -1,14 +1,14 @@
 import http from 'http';
 import cors from 'cors';
-import logger from './utils/logger';
-import { API_PORT } from './config';
-import createApolloServer from './apolloServer';
-import app from './app';
+import logger from '../src/utils/logger'
+import { API_PORT } from '../src/config';
+import createApolloServer from '../src/apolloServer';
+import app from '../src/app';
 import express from 'express';
 
 import { expressMiddleware } from '@apollo/server/express4';
-import AuthService from './utils/authService';
-import createDataLoaders from './utils/createDataLoaders';
+import AuthService from '../src/utils/authService';
+import createDataLoaders from '../src/utils/createDataLoaders';
 
 const startServer = async () => {
   const httpServer = http.createServer(app);
