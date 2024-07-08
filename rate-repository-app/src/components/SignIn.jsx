@@ -43,7 +43,7 @@ const validationSchema = yup.object().shape({
     .required("password is required"),
 });
 const initialValues = {
-  username: "dsf",
+  username: "",
   password: "",
 };
 const SignInForm = ({ onSubmit }) => {
