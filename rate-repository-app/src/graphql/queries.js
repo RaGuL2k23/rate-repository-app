@@ -38,6 +38,7 @@ export const GET_SNGLE_REPO = gql`
       ownerName
       id
       fullName
+      ratingAverage
       reviews( after: $after ) {
         edges {
           node {

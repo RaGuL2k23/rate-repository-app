@@ -68,7 +68,7 @@ export const RepositoryItem = ({ item }) => {
 
 const ItemStats = ({ item }) => (
   <View style={style.stats}>
-    <StatView>
+    <StatView>{console.log(item,'df')}
       <StatText bold={"bold"}>{item.stargazersCount}</StatText>
       <StatText>stars</StatText>
     </StatView>
