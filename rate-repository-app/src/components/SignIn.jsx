@@ -34,7 +34,7 @@ const validationSchema = yup.object().shape({
   username: yup
     .string()
     .min(5, "minimum 5 characters")
-    .max(30, "Password cannot be more than 30 characters")
+    .max(30, "username cannot be more than 30 characters")
     .required("username is required"),
   password: yup
     .string()
@@ -43,7 +43,7 @@ const validationSchema = yup.object().shape({
     .required("password is required"),
 });
 const initialValues = {
-  username: "",
+  username: "dsf",
   password: "",
 };
 const SignInForm = ({ onSubmit }) => {
@@ -80,7 +80,6 @@ const SingInTextInput = ({ formik, field }) => {
         placeholder={field}
         value={formik.values[field]}
         onChangeText={formik.handleChange(field)}
-        maxLength={8}
       />
       {formik.touched[field] && formik.errors[field] && (
         <Text style={formStyles.errorText}>{formik.errors[field]}</Text>

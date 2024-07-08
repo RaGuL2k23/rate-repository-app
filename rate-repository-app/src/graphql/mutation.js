@@ -23,12 +23,7 @@ export const CREATE_USER = gql`
   createUser(user: $user) {
     id
     username
-    reviewCount
-    reviews {
-      edges {
-        cursor
-      }
-    }
+    
   }
 }
 `

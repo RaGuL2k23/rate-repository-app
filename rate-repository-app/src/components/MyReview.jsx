@@ -80,7 +80,7 @@ const DisplayMyReviewItem = ({ review,username }) => {
     if (error) {
       return (
         <Text color={"primary"} fontSize={"heading"}>
-          Something went wrong
+          NO REVIEWS 
         </Text>
       );
     }

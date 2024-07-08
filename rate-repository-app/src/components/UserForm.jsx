@@ -85,10 +85,11 @@ const UserForm = () => {
     
     try {
       const data = await createUser({ username, password });
-      navigate("/");
+      console.log('yes creating');
+      navigate("/signIn");
 
     } catch (e) {
-      console.log(e.message);
+      alert(e.message);
     }
   };
 

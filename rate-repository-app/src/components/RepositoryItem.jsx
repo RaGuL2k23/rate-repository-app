@@ -34,14 +34,15 @@ const ItemDetails = ({ item }) => (
     <Text fontSize={"subheading"} style={{ marginVertical: 10 }}>
       {item.description}
     </Text>
-    <Text
+    {
+    item.language  && <Text
       testID="language"
       style={style.languageText}
       backgroundColor="primary"
       fontSize={"subheading"}
     >
       {item.language}
-    </Text>
+    </Text>}
   </View>
 );
 export const RepositoryItem = ({ item }) => {
