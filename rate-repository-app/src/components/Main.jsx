@@ -1,6 +1,7 @@
 import { StyleSheet, View } from "react-native";
 
 import { Route, Routes } from "react-router-native";
+import { StatusBar } from 'react-native';
 
 import RepositoryList from "./RepositoryList";
 import AppBar from "./AppBar";
@@ -23,6 +24,10 @@ const styles = StyleSheet.create({
 const Main = () => {
   return (
     <View style={styles.container}>
+      <StatusBar
+   backgroundColor="transparent"
+   translucent={true}
+/>
       <AppBar />
 
       <Routes>

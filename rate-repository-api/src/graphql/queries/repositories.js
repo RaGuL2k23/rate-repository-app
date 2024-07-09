@@ -68,7 +68,7 @@ export const resolvers = {
           ownerName,
         });
       } else if (searchKeyword) {
-        const likeFilter = getLikeFilter(searchKeyword);
+        const likeFilter = getLikeFilter(searchKeyword.toLowerCase());
 
         query = query.where(qb => {
           return qb

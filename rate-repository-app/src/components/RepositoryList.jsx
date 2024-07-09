@@ -20,7 +20,7 @@ export const RepositoryListContainer = ({onEndReach, repositories, changeOrderDi
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery] = useDebounce(searchQuery, 500);
   useEffect(()=>{
-    changeSearchQuery(debouncedQuery);
+    changeSearchQuery(debouncedQuery.toLocaleLowerCase());
   },[debouncedQuery])
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
